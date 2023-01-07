@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.9-management-alpine
+    container_name: 'rabbit_mq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes: 
+      - ./data/:/var/lib/rabbitmq/
+      - ./logs/:/var/log/rabbitmq/
+    networks:
+      - rabbit_mq_net
+
+networks: 
+  rabbit_mq_net:
+    name: rabbit_mq_network
+    driver: bridge

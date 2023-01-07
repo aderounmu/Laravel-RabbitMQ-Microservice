@@ -1,0 +1,36 @@
+version: '3.8'
+
+networks:
+  main_network: 
+  rabbit_mq_network: 
+    external: true
+
+services:
+  main: 
+    build: ./
+    volumes:
+      - .:/app
+    ports: 
+      - 8009:8000
+    depends_on:
+      - main_db
+    networks:
+      - rabbit_mq_network
+      - main_network
+  
+  main_db: 
+    image: mysql
+    restart: always
+    expose:
+      - 3306
+    volumes:
+      - maindb_vol:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    networks:
+      - main_network
+    
+
+volumes:
+  maindb_vol: 
