@@ -17,6 +17,13 @@ services:
     networks:
       - rabbit_mq_network
       - main_network
+    command:
+    - /bin/sh
+    - -c
+    - |
+       sleep 10 && php artisan migrate 
+       sleep 10 && php artisan db:seed
+       php artisan serve --host=0.0.0.0
   
   main_db: 
     image: mysql
